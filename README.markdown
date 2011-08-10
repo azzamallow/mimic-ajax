@@ -4,8 +4,8 @@ Releases
 ========
 
 * version 0.1
- * [mimic-ajax](https://raw.github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1.js)
- * [mimic-ajax-min](https://raw.github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1-min.js)
+ * [mimic-ajax](https://raw.github.com/azzamallow/mimic-ajax/master/release/mimic.ajax.0.1.js)
+ * [mimic-ajax-min](https://raw.github.com/azzamallow/mimic-ajax/master/release/mimic.ajax.0.1-min.js)
 
 Example
 ======
