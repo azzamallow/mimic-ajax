@@ -1,10 +1,8 @@
-if (typeof Mimic === 'undefined') {
-	Mimic = {};
-}
 
+/*global XMLHttpRequest:true */
+var Mimic = {};
 Mimic.Ajax = function () {
-	var data = [];
-	var matchers = function (url) {
+	var data = [], matchers = function (url) {
 		return {
 			toHaveResponse: function (status, text) {
 				data.push({ 'url': url, 'text': text, 'status': status });
@@ -26,7 +24,7 @@ Mimic.Ajax = function () {
 			this.statusText = null;
 			this.open = function (method, url, async, user, password) {
 				var i; 
-				for (i = 0; i< data.length; i++) {
+				for (i = 0; i < data.length; i += 1) {
 					if (data[i].url === url) {
 						this.responseText = data[i].text;
 						this.status = data[i].status;
@@ -39,21 +37,21 @@ Mimic.Ajax = function () {
 					this.onreadystatechange(this);
 				}
 			};
-			this.getAllResponseHeaders = function() {};
-			this.getResponseHeader = function(header) {};
-			this.setRequestHeader = function(header, value) {};
-			this.abort = function() {};
+			this.getAllResponseHeaders = function () {};
+			this.getResponseHeader = function (header) {};
+			this.setRequestHeader = function (header, value) {};
+			this.abort = function () {};
 		};
 	};
 };
 
-Mimic.Ajax.getInstance = function() {
+Mimic.Ajax.getInstance = function () {
 	if (Mimic.Ajax.instance === undefined) {
 	    Mimic.Ajax.instance = new Mimic.Ajax();
 	}
 
 	return Mimic.Ajax.instance;
-}
+};
 
 Mimic.HTTP = {
 	'SUCCESS': 200,

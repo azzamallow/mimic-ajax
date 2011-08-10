@@ -1,3 +1,4 @@
+/*global Mimic, jasmine */
 if (typeof jasmine !== 'undefined') {
 	var describeForAjax = jasmine.Env.prototype.describe;
 	jasmine.Env.prototype.describe = function (description, specDefinitions) {
