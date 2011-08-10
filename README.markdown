@@ -1,4 +1,4 @@
-mimic-ajax is a small addition to jasmine, and allows developers to stub the XMLHttpRequest object with syntax familiar to jasmine users.
+mimic-ajax is a small addition to jasmine which allows developers to stub the XMLHttpRequest object with syntax familiar to jasmine users.
 
 Releases
 ========
