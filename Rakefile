@@ -1,8 +1,14 @@
 @@current_release = '0.1'
 @@version = '0.1'
 
-require 'jasmine'
-load 'jasmine/tasks/jasmine.rake'
+begin
+  require 'jasmine'
+  load 'jasmine/tasks/jasmine.rake'
+rescue LoadError
+  task :jasmine do
+    abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
+  end
+end
 
 namespace :mimic do
   namespace :ajax do
@@ -47,5 +53,3 @@ namespace :mimic do
     end
   end
 end
-
-task :default => ['jasmine:ci']

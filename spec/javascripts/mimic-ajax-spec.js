@@ -38,7 +38,7 @@ describe('Mimic.Ajax', function() {
 		tweet.open("GET", "http://www.twitter.com", true);
 		tweet.send();
 		
-		expect(jQuery('#hello')[0]).toHaveText('hello world');
+		expect(jQuery('#hello').text()).toEqual('hello world');
 	});
 	
 	it('should set the neccassary variables on the XMLHttpRequest with a successful response', function (request) {
