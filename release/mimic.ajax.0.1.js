@@ -1,22 +1,22 @@
 if (typeof jasmine !== 'undefined') {
 	var describeForAjax = jasmine.Env.prototype.describe;
-	jasmine.Env.prototype.describe = function(description, specDefinitions) {
+	jasmine.Env.prototype.describe = function (description, specDefinitions) {
 		return describeForAjax.call(this, description, function () {
-			ajax = Mimic.Ajax.getInstance();
+			var ajax = Mimic.Ajax.getInstance();
 			ajax.start();
 			specDefinitions.call(this, ajax.request);
 		});
 	};
 	
 	var beforeEachForAjax = jasmine.Env.prototype.beforeEach;
-	jasmine.Env.prototype.beforeEach = function(beforeEachFunction) {
+	jasmine.Env.prototype.beforeEach = function (beforeEachFunction) {
 		return beforeEachForAjax.call(this, function () {
 			beforeEachFunction.call(this, Mimic.Ajax.getInstance().request);
 		});
 	};
 	
 	var itForAjax = jasmine.Env.prototype.it;
-	jasmine.Env.prototype.it = function(description, func) {
+	jasmine.Env.prototype.it = function (description, func) {
 		return itForAjax.call(this, description, function () {
 			func.call(this, Mimic.Ajax.getInstance().request);
 		});
@@ -26,7 +26,7 @@ if (typeof jasmine !== 'undefined') {
 }
 
 Mimic.Ajax = function () {
-	data = [];
+	var data = [];
 	var matchers = function (url) {
 		return {
 			toHaveResponse: function (status, text) {
@@ -47,8 +47,9 @@ Mimic.Ajax = function () {
 			this.responseXML = null;
 			this.status = -1;
 			this.statusText = null;
-			this.open = function (method, url, async, user, password) { 
-				for (var i = 0; i< data.length; i++) {
+			this.open = function (method, url, async, user, password) {
+				var i; 
+				for (i = 0; i< data.length; i++) {
 					if (data[i].url === url) {
 						this.responseText = data[i].text;
 						this.status = data[i].status;
