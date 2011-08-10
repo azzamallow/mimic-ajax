@@ -19,7 +19,7 @@ namespace :mimic do
       print 'Prepare target...'
       `mkdir target`
       `rm target/*.js`
-      `cp -R src/scripts/ajax/* target`
+      `cp -R src/* target`
       puts 'done!'
 
       print 'Creating minified files...'
@@ -42,10 +42,6 @@ namespace :mimic do
       puts 'done!'
 
       if @@current_release.eql?(@@version)
-        print 'Copying target file to examples directory...'
-        `cp target/mimic-ajax-#{@@version}.js examples`
-        puts 'done!'
-
         print 'Copying target file to release directory...'
         `cp target/mimic-ajax-#{@@version}.js release`
         puts 'done!'
