@@ -3,9 +3,9 @@ mimic-ajax is a small addition to jasmine, and allows developers to stub the XML
 Releases
 ========
 
-* Version 0.1
- * [mimic-ajax](https://github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1.js)
- * [mimic-ajax-min](https://github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1-min.js)
+* version 0.1
+ * [mimic-ajax](https://raw.github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1.js)
+ * [mimic-ajax-min](https://raw.github.com/azzamallow/mimic-ajax/blob/master/release/mimic.ajax.0.1-min.js)
 
 Example
 ======
