@@ -35,7 +35,9 @@ Mimic.Ajax = function () {
 				}
 				
 				if (!useStub) {
-					throw 'url ' + url + 'was not expected.';
+					this.responseText = 'url ' + url + ' was not expected.';
+					this.status = Mimic.HTTP.INTERNAL_SERVER_ERROR;
+					this.readyState = 4;
 				}
 			};
 			this.send = function (object) {

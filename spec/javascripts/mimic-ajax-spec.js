@@ -132,7 +132,7 @@ describe('Mimic.Ajax', function() {
 		});
 	});
 	
-	it('should throw an error if a stub was created but it went to the wrong url', function (request) {
+	it('should throw an error if a stub was created but it went to the wrong url using jquery', function (request) {
 		request('http://www.twitter.com').toHaveResponse(Mimic.HTTP.SUCCESS, 'something');
 		
 		var error = function(response) {
@@ -142,4 +142,16 @@ describe('Mimic.Ajax', function() {
 		jQuery.ajax({'url': 'http://www.yahoo.com', 'error': error });
 		expect(jQuery('#hello').text()).toEqual('should throw an error');
 	})
+	
+	it('should throw an error if a stub was created but it went to the wrong url', function (request) {
+		request('http://www.twitter.com').toHaveResponse(Mimic.HTTP.SUCCESS, 'something');
+
+		tweet = new XMLHttpRequest();
+		tweet.onreadystatechange = function(response) {
+			jQuery('#hello').text('should throw an error');
+		}
+		tweet.open("GET", "http://www.yahoo.com", true);
+		tweet.send();
+		expect(jQuery('#hello').text()).toEqual('should throw an error');
+	});
 });
