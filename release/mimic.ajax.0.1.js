@@ -1,10 +1,12 @@
 /*global Mimic, jasmine */
 if (typeof jasmine !== 'undefined') {
+	// request = Mimic.Ajax.getInstance().request;
+	
 	var describeForAjax = jasmine.Env.prototype.describe;
 	jasmine.Env.prototype.describe = function (description, specDefinitions) {
 		return describeForAjax.call(this, description, function () {
 			var ajax = Mimic.Ajax.getInstance();
-			ajax.start();
+			// ajax.start();
 			specDefinitions.call(this, ajax.request);
 		});
 	};
@@ -19,7 +21,9 @@ if (typeof jasmine !== 'undefined') {
 	var itForAjax = jasmine.Env.prototype.it;
 	jasmine.Env.prototype.it = function (description, func) {
 		return itForAjax.call(this, description, function () {
-			func.call(this, Mimic.Ajax.getInstance().request);
+			var ajax = Mimic.Ajax.getInstance();
+			func.call(this, ajax.request);
+			ajax.reset();
 		});
 	};
 }
@@ -34,12 +38,13 @@ Mimic.Ajax = function () {
 		};
 	};
 	
-	this.request = function (url) {
-		return matchers(url);
-	};
-	
-	this.start = function () {
-		XMLHttpRequest = function () {
+	var RealXMLHttpRequest = XMLHttpRequest;
+	XMLHttpRequest = function () {
+		if (data.length === 0) {
+			return new RealXMLHttpRequest();
+		}
+		
+		return new function() {
 			this.onreadystatechange = undefined;
 			this.readyState = -1;
 			this.responseText = null;
@@ -47,13 +52,20 @@ Mimic.Ajax = function () {
 			this.status = -1;
 			this.statusText = null;
 			this.open = function (method, url, async, user, password) {
-				var i; 
+				var i, useStub = false; 
 				for (i = 0; i < data.length; i += 1) {
 					if (data[i].url === url) {
+						useStub = true;
 						this.responseText = data[i].text;
 						this.status = data[i].status;
 						this.readyState = 4;
 					}
+				}
+				
+				if (!useStub) {
+					this.responseText = 'url ' + url + ' was not expected.';
+					this.status = Mimic.HTTP.INTERNAL_SERVER_ERROR;
+					this.readyState = 4;
 				}
 			};
 			this.send = function (object) {
@@ -67,6 +79,14 @@ Mimic.Ajax = function () {
 			this.abort = function () {};
 		};
 	};
+	
+	this.request = function (url) {
+		return matchers(url);
+	};
+	
+	this.reset = function () {
+		data = [];
+	}
 };
 
 Mimic.Ajax.getInstance = function () {
