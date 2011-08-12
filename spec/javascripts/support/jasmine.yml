@@ -11,7 +11,8 @@
 #   - dist/**/*.js
 #
 src_files:
-    - src/**/*.js
+    - src/mimic.ajax.overrides.js
+    - src/mimic.ajax.js
 
 # stylesheets
 #

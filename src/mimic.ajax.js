@@ -10,12 +10,13 @@ Mimic.Ajax = function () {
 		};
 	};
 	
-	this.request = function (url) {
-		return matchers(url);
-	};
-	
-	this.start = function () {
-		XMLHttpRequest = function () {
+	var RealXMLHttpRequest = XMLHttpRequest;
+	XMLHttpRequest = function () {
+		if (data.length === 0) {
+			return new RealXMLHttpRequest();
+		}
+		
+		return new function() {
 			this.onreadystatechange = undefined;
 			this.readyState = -1;
 			this.responseText = null;
@@ -23,13 +24,18 @@ Mimic.Ajax = function () {
 			this.status = -1;
 			this.statusText = null;
 			this.open = function (method, url, async, user, password) {
-				var i; 
+				var i, useStub = false; 
 				for (i = 0; i < data.length; i += 1) {
 					if (data[i].url === url) {
+						useStub = true;
 						this.responseText = data[i].text;
 						this.status = data[i].status;
 						this.readyState = 4;
 					}
+				}
+				
+				if (!useStub) {
+					throw 'url ' + url + 'was not expected.';
 				}
 			};
 			this.send = function (object) {
@@ -43,6 +49,14 @@ Mimic.Ajax = function () {
 			this.abort = function () {};
 		};
 	};
+	
+	this.request = function (url) {
+		return matchers(url);
+	};
+	
+	this.reset = function () {
+		data = [];
+	}
 };
 
 Mimic.Ajax.getInstance = function () {
